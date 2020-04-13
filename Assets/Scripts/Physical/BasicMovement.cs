@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Physical
 {
@@ -17,19 +18,31 @@ namespace Physical
         private float _minusVelocity = -2f;
         private float _speed;
         private bool _isGroundCheck;
+        public bool isMoving;
 
         private void Start()
         {
+            isMoving = false;
             _speed = speedExposer;
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (!Input.GetAxis("Horizontal").Equals(0f) || !Input.GetAxis("Vertical").Equals(0f))
+            {
+                isMoving = true;
+            }
+            else
+            {
+                isMoving = false;
+            }
+            
             _isGroundCheck = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
             if (_isGroundCheck && _velocity.y < 0f)
             {
+                Debug.Log("Je suis au sol zebi");
                 _velocity.y = _minusVelocity;
             }
             
@@ -50,6 +63,10 @@ namespace Physical
             if (Input.GetButtonDown("Jump") && _isGroundCheck)
             {
                 _velocity.y = Mathf.Sqrt(jumpHeight * (_minusVelocity - 1) * gravity);
+            }
+            else if (_isGroundCheck)
+            {
+                Debug.Log("aa");
             }
             _velocity.y += gravity * Time.deltaTime;
             controller.Move(_velocity * Time.deltaTime);
