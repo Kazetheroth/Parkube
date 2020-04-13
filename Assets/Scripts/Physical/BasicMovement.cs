@@ -11,13 +11,22 @@ namespace Physical
         [SerializeField] private float jumpHeight;
         [SerializeField] private float gravity; 
         [SerializeField] private Transform groundCheck;
+        [SerializeField] private Transform rightCheck;
+        [SerializeField] private Transform leftCheck;
         [SerializeField] private float groundDistance;
         [SerializeField] private LayerMask groundMask;
+        [SerializeField] private LayerMask plateformMask;
+        [SerializeField] private LayerMask wallMask;
     
         private Vector3 _velocity;
+        private float _sideDistance = 0.1f;
         private float _minusVelocity = -2f;
         private float _speed;
         private bool _isGroundCheck;
+        private bool _isPlateformCheck;
+        private bool _isWallCheck;
+        private bool _isWallLeft;
+        private Vector3 _groundCheckPosition;
         public bool isMoving;
 
         private void Start()
@@ -29,7 +38,7 @@ namespace Physical
         // Update is called once per frame
         void Update()
         {
-            if (!Input.GetAxis("Horizontal").Equals(0f) || !Input.GetAxis("Vertical").Equals(0f))
+            if (!Input.GetAxis("Horizontal").Equals(0f) || Input.GetAxis("Vertical") > 0)
             {
                 isMoving = true;
             }
@@ -37,12 +46,11 @@ namespace Physical
             {
                 isMoving = false;
             }
-            
-            _isGroundCheck = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-            if (_isGroundCheck && _velocity.y < 0f)
+            CheckCollision();
+
+            if ((_isGroundCheck || _isPlateformCheck) && _velocity.y < 0f)
             {
-                Debug.Log("Je suis au sol zebi");
                 _velocity.y = _minusVelocity;
             }
             
@@ -60,16 +68,37 @@ namespace Physical
                 _speed = speedExposer;
             }
             controller.Move(movement * (_speed * Time.deltaTime));
-            if (Input.GetButtonDown("Jump") && _isGroundCheck)
+            if (Input.GetButtonDown("Jump") && (_isGroundCheck || _isPlateformCheck))
             {
                 _velocity.y = Mathf.Sqrt(jumpHeight * (_minusVelocity - 1) * gravity);
             }
-            else if (_isGroundCheck)
+            if (Input.GetButton("WallJump") && _isWallCheck)
             {
-                Debug.Log("aa");
+                if (_isWallLeft)
+                {
+                    Vector3 wallJumpMove = transform.right * 300 + transform.forward * 300;
+                    controller.Move(wallJumpMove * (_speed * Time.deltaTime));
+                }
             }
             _velocity.y += gravity * Time.deltaTime;
+            
             controller.Move(_velocity * Time.deltaTime);
+        }
+
+        private void CheckCollision()
+        {
+            _groundCheckPosition = groundCheck.position;
+            _isGroundCheck = Physics.CheckSphere(_groundCheckPosition, groundDistance, groundMask);
+            _isPlateformCheck = Physics.CheckSphere(_groundCheckPosition, groundDistance, plateformMask);
+            if (Physics.CheckSphere(rightCheck.position, _sideDistance, wallMask) || Physics.CheckSphere(leftCheck.position, _sideDistance, wallMask))
+            {
+                _isWallLeft = Physics.CheckSphere(leftCheck.position, _sideDistance, wallMask);
+                _isWallCheck = true;
+            }
+            else
+            {
+                _isWallCheck = false;
+            }
         }
     }
 }
