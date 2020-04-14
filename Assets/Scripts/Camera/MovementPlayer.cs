@@ -22,7 +22,7 @@ namespace Camera
         private void Update()
         {
         
-            if (se.basicMovement.isMoving)
+            if (se.basicMovement.isMoving && !se.basicMovement.isGroundCheck)
             {
                 UpdateCounter(ref _switchRun, ref _counterRun);
                 _counterIdle = 0;
@@ -41,7 +41,7 @@ namespace Camera
                     _counterIdle);
             }
             _counterSpeed = Mathf.Clamp(_counterSpeed, 0, 1);
-            radialBlur.blurStrength = _counterSpeed * 1.5f;
+            radialBlur.blurStrength = _counterSpeed * 0.8f;
         }
 
     
