@@ -37,11 +37,9 @@ namespace Physical
             isMoving = false;
             _speed = se.tweakerDatas.DSE.Character.baseSpeed;
         }
-
         // Update is called once per frame
         void Update()
         {
-            speedExposer = se.tweakerDatas.DSE.Character.baseSpeed;
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 se.isInMenu = !se.isInMenu;
@@ -52,6 +50,7 @@ namespace Physical
                 Cursor.lockState = CursorLockMode.None;
                 return;
             }
+            speedExposer = se.tweakerDatas.DSE.Character.baseSpeed;
             Cursor.lockState = CursorLockMode.Locked;
 
             if (player.position.y <= -50f)
@@ -68,7 +67,6 @@ namespace Physical
             {
                 isMoving = false;
             }
-
             CheckCollision();
 
             if ((isGroundCheck || _isPlateformCheck) && _velocity.y < 0f)
@@ -76,12 +74,13 @@ namespace Physical
                 _velocity.y = _minusVelocity;
             }
             
-        
+            
             float x = Input.GetAxis("Horizontal");
             float z = Input.GetAxis("Vertical");
 
             Vector3 movement = transform.right * x + transform.forward * z;
-            if (Input.GetButton("Run") && isGroundCheck)
+            
+            if (Input.GetKey(KeyCode.LeftShift) && isGroundCheck)
             {
                 _speed = speedExposer * se.tweakerDatas.DSE.Character.sprintSpeed;
             }
@@ -106,7 +105,7 @@ namespace Physical
         private void CheckCollision()
         {
             _groundCheckPosition = groundCheck.position;
-            isGroundCheck = Physics.CheckSphere(_groundCheckPosition, groundDistance, groundMask);
+            isGroundCheck = Physics.CheckSphere(_groundCheckPosition, groundDistance, plateformMask);
             _isPlateformCheck = Physics.CheckSphere(_groundCheckPosition, groundDistance, plateformMask);
             if (Physics.CheckSphere(rightCheck.position, _sideDistance, wallMask) || Physics.CheckSphere(leftCheck.position, _sideDistance, wallMask))
             {
