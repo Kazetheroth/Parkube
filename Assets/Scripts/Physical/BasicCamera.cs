@@ -30,9 +30,7 @@ namespace Physical
 
             _padAxisX = Input.GetAxis("HorizontalR");
             _padAxisY = Input.GetAxis("VerticalR");
-            
-            //Debug.Log(_padAxisX + ", " + _padAxisY);
-            
+
             _xRotation -= _mouseY;
             _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
             
