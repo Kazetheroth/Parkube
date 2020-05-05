@@ -9,7 +9,7 @@ namespace JSONReader
         [HideInInspector]
         public DataSavedExposer DSE = new DataSavedExposer();
 
-        public void Start()
+        public void Awake()
         {
             DSE.Camera = new CameraTweaker();
             DSE.Character = new CharacterTweaker();

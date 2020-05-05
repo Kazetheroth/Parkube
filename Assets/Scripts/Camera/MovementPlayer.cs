@@ -43,7 +43,7 @@ namespace Camera
                     _counterIdle);
             }
             _counterSpeed = Mathf.Clamp(_counterSpeed, 0, 1);
-            radialBlur.blurStrength = _counterSpeed * 0.8f;
+            radialBlur.blurStrength = _counterSpeed * se.tweakerDatas.DSE.Camera.blurModifier;
         }
 
     

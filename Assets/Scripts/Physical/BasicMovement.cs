@@ -19,6 +19,7 @@ namespace Physical
         [SerializeField] private LayerMask groundMask;
         [SerializeField] private LayerMask plateformMask;
         [SerializeField] private LayerMask wallMask;
+        [SerializeField] private ScriptExposer se;
     
         private Vector3 _velocity;
         private float _sideDistance = 0.3f;
@@ -34,12 +35,25 @@ namespace Physical
         private void Start()
         {
             isMoving = false;
-            _speed = speedExposer;
+            _speed = se.tweakerDatas.DSE.Character.baseSpeed;
         }
 
         // Update is called once per frame
         void Update()
         {
+            speedExposer = se.tweakerDatas.DSE.Character.baseSpeed;
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                se.isInMenu = !se.isInMenu;
+            }
+
+            if (se.isInMenu)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                return;
+            }
+            Cursor.lockState = CursorLockMode.Locked;
+
             if (player.position.y <= -50f)
             {
                 player.position = spawner.position;
@@ -69,7 +83,7 @@ namespace Physical
             Vector3 movement = transform.right * x + transform.forward * z;
             if (Input.GetButton("Run") && isGroundCheck)
             {
-                _speed = speedExposer * 2f;
+                _speed = speedExposer * se.tweakerDatas.DSE.Character.sprintSpeed;
             }
             else
             {
@@ -78,7 +92,7 @@ namespace Physical
             controller.Move(movement * (_speed * Time.deltaTime));
             if (Input.GetButtonDown("Jump") && (isGroundCheck || _isPlateformCheck))
             {
-                _velocity.y = Mathf.Sqrt(jumpHeight * (-_speed - 1) * gravity);
+                _velocity.y = Mathf.Sqrt(se.tweakerDatas.DSE.Character.heightJump * (-_speed - 1) * gravity);
             }
             if (Input.GetButton("WallJump") && _isWallCheck)
             {

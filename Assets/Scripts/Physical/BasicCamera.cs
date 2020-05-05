@@ -6,6 +6,7 @@ namespace Physical
     {
         [SerializeField] private float mouseSensitivity;
         [SerializeField] private Transform player;
+        [SerializeField] private ScriptExposer se;
 
         private float _xRotation;
         private float _yRotation;
@@ -25,6 +26,10 @@ namespace Physical
         // Update is called once per frame
         void Update()
         {
+            if (se.isInMenu)
+            {
+                return;
+            }
             _mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
             _mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
