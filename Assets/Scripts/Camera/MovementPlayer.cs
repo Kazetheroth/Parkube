@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using JSONReader;
+using UnityEngine;
 
 namespace Camera
 {
@@ -18,7 +20,7 @@ namespace Camera
         private bool _switchIdle;
         private bool _switchRun;
         private bool _onStart;
-    
+
         private void Update()
         {
         
