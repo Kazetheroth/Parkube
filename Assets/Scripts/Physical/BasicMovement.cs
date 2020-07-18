@@ -39,6 +39,13 @@ namespace Physical
         private Vector3 _finalClimbedPos;
         private float _interp = 0.0f;
 
+        private bool _isSliding;
+        
+        public float slideSpeed = 20; // slide speed
+        private Vector3 slideForward; // direction of slide
+        private float slideTimer = 0.0f;
+        public float slideTimerMax = 0.05f;
+
         private void Start()
         {
             isMoving = false;
@@ -128,7 +135,38 @@ namespace Physical
             }
             _velocity.y += gravity * Time.deltaTime;
             
+            if (Input.GetKeyDown(KeyCode.F) && !_isSliding && (isGroundCheck || _isPlateformCheck)) // press F to slide
+            {
+                slideTimer = 0f; // start timer
+                _isSliding = true;
+                slideForward = new Vector3(movement.x, gravity * Time.deltaTime, movement.z);
+                transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            }
+            
+            if (_isSliding && (isGroundCheck || _isPlateformCheck))
+            {
+                _speed = slideSpeed;
+                _velocity = slideForward * _speed;
+         
+                slideTimer += Time.deltaTime;
+                
+            }
+            else
+            {
+                _velocity.x = movement.x;
+                _velocity.z = movement.z;
+                _velocity.y += gravity * Time.deltaTime;
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            }
             controller.Move(_velocity * Time.deltaTime);
+        }
+
+        private void FixedUpdate()
+        {
+            if (slideTimer >= slideTimerMax || (!isGroundCheck || !_isPlateformCheck))
+            {
+                _isSliding = false;
+            }
         }
 
         private void CheckCollision()
