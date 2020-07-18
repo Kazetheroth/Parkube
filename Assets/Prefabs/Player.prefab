@@ -30,6 +30,36 @@ Transform:
   m_Father: {fileID: 4576822625141735770}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1642025196670300789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6577051981755382153}
+  m_Layer: 0
+  m_Name: FrontCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6577051981755382153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642025196670300789}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4576822625141735770}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4576822625141735766
 GameObject:
   m_ObjectHideFlags: 0
@@ -71,6 +101,7 @@ Transform:
   - {fileID: 199436977}
   - {fileID: 2014092211250577031}
   - {fileID: 4568829694815937419}
+  - {fileID: 6577051981755382153}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -166,6 +197,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basicMovement: {fileID: 407918107}
   basicCamera: {fileID: 3279283515873176698}
+  tweakerDatas: {fileID: 0}
+  isInMenu: 0
 --- !u!114 &407918107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +218,9 @@ MonoBehaviour:
   groundCheck: {fileID: 199436977}
   rightCheck: {fileID: 2014092211250577031}
   leftCheck: {fileID: 4568829694815937419}
+  frontCheck: {fileID: 6577051981755382153}
+  player: {fileID: 0}
+  spawner: {fileID: 0}
   groundDistance: 0.4
   groundMask:
     serializedVersion: 2
@@ -195,7 +231,13 @@ MonoBehaviour:
   wallMask:
     serializedVersion: 2
     m_Bits: 512
+  climableMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  se: {fileID: 0}
+  isGroundCheck: 0
   isMoving: 0
+  canClimb: 0
 --- !u!114 &3279283515873176698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,6 +252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 100
   player: {fileID: 4576822625141735770}
+  se: {fileID: 0}
 --- !u!114 &4576822625141735773
 MonoBehaviour:
   m_ObjectHideFlags: 0
