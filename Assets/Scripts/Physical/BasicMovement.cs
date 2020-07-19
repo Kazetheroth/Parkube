@@ -132,14 +132,11 @@ namespace Physical
                 _speed = speedExposer;
             }
             controller.Move(movement * (_speed * Time.deltaTime));
-            if (Input.GetButtonDown("Jump") && (isGroundCheck || _isPlateformCheck))
+            if (Input.GetButtonDown("Jump") && isGroundCheck)
             {
-                
+                Debug.Log("ZEBI");
                 if (gravity > 0)
                 {
-                    /*_velocity.y = (Mathf.Sqrt(-se.tweakerDatas.DSE.Character.heightJump * (_speed + 1) * gravity));
-                    Debug.Log((Mathf.Sqrt(-se.tweakerDatas.DSE.Character.heightJump * (_speed + 1) * gravity)));*/
-                    
                     _velocity.y = -
                         Mathf.Sqrt(-se.tweakerDatas.DSE.Character.heightJump * (-_speed - 1) * gravity);
                     Debug.Log(Mathf.Sqrt(-se.tweakerDatas.DSE.Character.heightJump * (-_speed - 1) * gravity));
@@ -223,9 +220,9 @@ namespace Physical
         private void CheckCollision()
         {
             _groundCheckPosition = groundCheck.position;
-            isGroundCheck = Physics.CheckSphere(_groundCheckPosition, groundDistance, plateformMask);
+            isGroundCheck = Physics.CheckSphere(_groundCheckPosition, groundDistance, groundMask);
             canClimb = Physics.CheckSphere(frontCheck.position, _sideDistance, climableMask);
-            _isPlateformCheck = Physics.CheckSphere(_groundCheckPosition, groundDistance, plateformMask);
+            _isPlateformCheck = Physics.CheckSphere(_groundCheckPosition, groundDistance, groundMask);
             if (Physics.CheckSphere(rightCheck.position, _sideDistance, wallMask) ||
                 Physics.CheckSphere(leftCheck.position, _sideDistance, wallMask))
             {
