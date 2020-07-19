@@ -11,7 +11,7 @@ public class GravityInverter : MonoBehaviour
 
 
     private Quaternion actualRotation;
-    private bool _isInverted;
+    public bool _isInverted;
 
     // Start is called before the first frame update
     void Start()
@@ -25,14 +25,19 @@ public class GravityInverter : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             Debug.Log("Hello");
-            playerBasicMovement.gravity = -playerBasicMovement.gravity;
-            playerTransform.Rotate(0.0f, 0.0f, 180.0f);
-            playerBasicCamera.direction = -playerBasicCamera.direction;
-            if(!_isInverted)
-                playerBasicCamera.gravityRotation = new Vector3(0.0f, 0.0f, 180.0f);
-            else
-                playerBasicCamera.gravityRotation = new Vector3(0.0f, 0.0f, 0.0f);
-            _isInverted = !_isInverted;
+            InvertGravity();
         }
+    }
+
+    public void InvertGravity()
+    {
+        playerBasicMovement.gravity = -playerBasicMovement.gravity;
+        playerTransform.Rotate(0.0f, 0.0f, 180.0f);
+        playerBasicCamera.direction = -playerBasicCamera.direction;
+        if(!_isInverted)
+            playerBasicCamera.gravityRotation = new Vector3(0.0f, 0.0f, 180.0f);
+        else
+            playerBasicCamera.gravityRotation = new Vector3(0.0f, 0.0f, 0.0f);
+        _isInverted = !_isInverted;
     }
 }

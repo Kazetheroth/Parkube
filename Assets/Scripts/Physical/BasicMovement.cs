@@ -73,9 +73,9 @@ namespace Physical
             speedExposer = se.tweakerDatas.DSE.Character.baseSpeed;
             Cursor.lockState = CursorLockMode.Locked;
 
-            if (player.position.y <= -50f)
+            if (player.position.y <= -300f || player.position.y >= 300f)
             {
-                player.position = spawner.position;
+                SceneManager.LoadScene("Level" + currentLevel);
                 return;
             }
             
