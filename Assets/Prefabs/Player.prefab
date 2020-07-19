@@ -293,6 +293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 4576822625141735770}
   scriptExposer: {fileID: 8791956968836009803}
+  _isInverted: 0
 --- !u!1 &4576822625789490329
 GameObject:
   m_ObjectHideFlags: 0
