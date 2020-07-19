@@ -98,7 +98,7 @@ namespace Physical
             if (canClimb && Input.GetKeyDown(KeyCode.A) && !_isClimbing)
             {
                 Debug.Log("Climbing");
-                _finalClimbedPos = new Vector3(player.position.x, player.position.y + 1.0f, player.position.z);
+                _finalClimbedPos = new Vector3(player.position.x, player.position.y + 3.0f, player.position.z);
                 _isClimbing = true;
             }
 

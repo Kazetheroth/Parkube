@@ -239,6 +239,7 @@ MonoBehaviour:
   isGroundCheck: 0
   isMoving: 0
   canClimb: 0
+  currentLevel: 0
   slideSpeed: 20
   slideTimerMax: 1
 --- !u!114 &3279283515873176698
@@ -257,6 +258,7 @@ MonoBehaviour:
   player: {fileID: 4576822625141735770}
   se: {fileID: 0}
   gravityRotation: {x: 0, y: 0, z: 0}
+  direction: 1
 --- !u!114 &4576822625141735773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,8 +291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 4576822625141735770}
-  playerBasicMovement: {fileID: 407918107}
-  playerBasicCamera: {fileID: 3279283515873176698}
+  scriptExposer: {fileID: 8791956968836009803}
 --- !u!1 &4576822625789490329
 GameObject:
   m_ObjectHideFlags: 0

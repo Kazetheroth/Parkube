@@ -6,8 +6,7 @@ using UnityEngine;
 public class GravityInverter : MonoBehaviour
 {
     [SerializeField] private Transform playerTransform;
-    [SerializeField] private BasicMovement playerBasicMovement;
-    [SerializeField] private BasicCamera playerBasicCamera;
+    [SerializeField] private ScriptExposer scriptExposer;
 
 
     private Quaternion actualRotation;
@@ -16,7 +15,7 @@ public class GravityInverter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerBasicMovement.gravity = -9.81f;
+        scriptExposer.basicMovement.gravity = -9.81f;
     }
 
     // Update is called once per frame
@@ -25,13 +24,13 @@ public class GravityInverter : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             Debug.Log("Hello");
-            playerBasicMovement.gravity = -playerBasicMovement.gravity;
+            scriptExposer.basicMovement.gravity = -scriptExposer.basicMovement.gravity;
             playerTransform.Rotate(0.0f, 0.0f, 180.0f);
-            playerBasicCamera.direction = -playerBasicCamera.direction;
+            scriptExposer.basicCamera.direction = -scriptExposer.basicCamera.direction;
             if(!_isInverted)
-                playerBasicCamera.gravityRotation = new Vector3(0.0f, 0.0f, 180.0f);
+                scriptExposer.basicCamera.gravityRotation = new Vector3(0.0f, 0.0f, 180.0f);
             else
-                playerBasicCamera.gravityRotation = new Vector3(0.0f, 0.0f, 0.0f);
+                scriptExposer.basicCamera.gravityRotation = new Vector3(0.0f, 0.0f, 0.0f);
             _isInverted = !_isInverted;
         }
     }
