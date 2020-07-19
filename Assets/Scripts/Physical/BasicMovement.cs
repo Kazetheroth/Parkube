@@ -13,12 +13,14 @@ namespace Physical
         [SerializeField] private Transform groundCheck;
         [SerializeField] private Transform rightCheck;
         [SerializeField] private Transform leftCheck;
+        [SerializeField] private Transform frontCheck;
         [SerializeField] private Transform player;
         [SerializeField] private Transform spawner;
         [SerializeField] private float groundDistance;
         [SerializeField] private LayerMask groundMask;
         [SerializeField] private LayerMask plateformMask;
         [SerializeField] private LayerMask wallMask;
+        [SerializeField] private LayerMask climableMask;
         [SerializeField] private ScriptExposer se;
     
         private Vector3 _velocity;
@@ -29,9 +31,15 @@ namespace Physical
         private bool _isPlateformCheck;
         private bool _isWallCheck;
         private bool _isWallLeft;
-        private bool _isSliding;
+        private bool _isClimbing = false;
         private Vector3 _groundCheckPosition;
         public bool isMoving;
+        public bool canClimb;
+
+        private Vector3 _finalClimbedPos;
+        private float _interp = 0.0f;
+
+        private bool _isSliding;
         
         public float slideSpeed = 20; // slide speed
         private Vector3 slideForward; // direction of slide
@@ -48,6 +56,28 @@ namespace Physical
         // Update is called once per frame
         void Update()
         {
+
+            if (_isClimbing)
+            {
+                _interp += Time.deltaTime * 10;
+                player.position = Vector3.Lerp(player.position,
+                    _finalClimbedPos, _interp);
+
+                Debug.Log(_interp);
+                if (_interp >= 1.0f)
+                {
+                    _interp = 0.0f;
+                    _isClimbing = false;
+                }
+                
+                return;
+            }
+            
+            if (canClimb && Input.GetKeyDown(KeyCode.F) && !_isClimbing)
+            {
+                _finalClimbedPos = new Vector3(player.position.x, player.position.y + 1.0f, player.position.z);
+                _isClimbing = true;
+            }
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 se.isInMenu = !se.isInMenu;
@@ -147,6 +177,7 @@ namespace Physical
         {
             _groundCheckPosition = groundCheck.position;
             isGroundCheck = Physics.CheckSphere(_groundCheckPosition, groundDistance, plateformMask);
+            canClimb = Physics.CheckSphere(frontCheck.position, _sideDistance, climableMask);
             _isPlateformCheck = Physics.CheckSphere(_groundCheckPosition, groundDistance, plateformMask);
             if (Physics.CheckSphere(rightCheck.position, _sideDistance, wallMask) || Physics.CheckSphere(leftCheck.position, _sideDistance, wallMask))
             {
@@ -157,6 +188,8 @@ namespace Physical
             {
                 _isWallCheck = false;
             }
-        }
+            
+
+            }
     }
 }
