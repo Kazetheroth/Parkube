@@ -70,10 +70,12 @@ namespace Physical
             if (se.isInMenu)
             {
                 Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 return;
             }
             
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
 
             if (player.position.y <= -300f || player.position.y >= 300f)
             {
