@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 namespace Physical
@@ -35,6 +36,7 @@ namespace Physical
         private Vector3 _groundCheckPosition;
         public bool isMoving;
         public bool canClimb;
+        public int currentLevel;
 
         private Vector3 _finalClimbedPos;
         private float _interp = 0.0f;
@@ -57,7 +59,26 @@ namespace Physical
         // Update is called once per frame
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                se.isInMenu = !se.isInMenu;
+            }
 
+            
+            if (se.isInMenu)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                return;
+            }
+            speedExposer = se.tweakerDatas.DSE.Character.baseSpeed;
+            Cursor.lockState = CursorLockMode.Locked;
+
+            if (player.position.y <= -50f)
+            {
+                player.position = spawner.position;
+                return;
+            }
+            
             if (_isClimbing)
             {
                 _interp += Time.deltaTime * 10;
@@ -80,26 +101,7 @@ namespace Physical
                 _finalClimbedPos = new Vector3(player.position.x, player.position.y + 1.0f, player.position.z);
                 _isClimbing = true;
             }
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                se.isInMenu = !se.isInMenu;
-            }
 
-            
-            if (se.isInMenu)
-            {
-                Cursor.lockState = CursorLockMode.None;
-                return;
-            }
-            speedExposer = se.tweakerDatas.DSE.Character.baseSpeed;
-            Cursor.lockState = CursorLockMode.Locked;
-
-            if (player.position.y <= -50f)
-            {
-                player.position = spawner.position;
-                return;
-            }
-            
             if (!Input.GetAxis("Horizontal").Equals(0f) || Input.GetAxis("Vertical") > 0)
             {
                 isMoving = true;
@@ -189,6 +191,32 @@ namespace Physical
             if (slideTimer >= slideTimerMax || (!isGroundCheck || !_isPlateformCheck))
             {
                 _isSliding = false;
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.tag == "EndLevel")
+            {
+                Debug.Log("Collide");
+                switch (currentLevel)
+                {
+                    case 1:
+                        SceneManager.LoadScene("Level2");
+                        break;
+                    case 2:
+                        SceneManager.LoadScene("Level3");
+                        break;
+                    case 3:
+                        SceneManager.LoadScene("Level4");
+                        break;
+                    case 4:
+                        SceneManager.LoadScene("Level5");
+                        break;
+                    case 5:
+                        SceneManager.LoadScene("Level1");
+                        break;
+                }
             }
         }
 
