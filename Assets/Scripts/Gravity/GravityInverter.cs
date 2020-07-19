@@ -10,7 +10,7 @@ public class GravityInverter : MonoBehaviour
 
 
     private Quaternion actualRotation;
-    private bool _isInverted;
+    public bool _isInverted;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +32,8 @@ public class GravityInverter : MonoBehaviour
             else
                 scriptExposer.basicCamera.gravityRotation = new Vector3(0.0f, 0.0f, 0.0f);
             _isInverted = !_isInverted;
+
         }
     }
+
 }

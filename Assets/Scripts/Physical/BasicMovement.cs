@@ -54,6 +54,8 @@ namespace Physical
         {
             isMoving = false;
             _speed = se.tweakerDatas.DSE.Character.baseSpeed;
+            speedExposer = se.tweakerDatas.DSE.Character.baseSpeed;
+            //Debug.Log(se.tweakerDatas.DSE.Character.baseSpeed);
 
         }
         // Update is called once per frame
@@ -70,12 +72,12 @@ namespace Physical
                 Cursor.lockState = CursorLockMode.None;
                 return;
             }
-            speedExposer = se.tweakerDatas.DSE.Character.baseSpeed;
+            
             Cursor.lockState = CursorLockMode.Locked;
 
-            if (player.position.y <= -50f)
+            if (player.position.y <= -300f || player.position.y >= 300f)
             {
-                player.position = spawner.position;
+                SceneManager.LoadScene("Level" + currentLevel);
                 return;
             }
             
@@ -134,7 +136,6 @@ namespace Physical
             controller.Move(movement * (_speed * Time.deltaTime));
             if (Input.GetButtonDown("Jump") && isGroundCheck)
             {
-                Debug.Log("ZEBI");
                 if (gravity > 0)
                 {
                     _velocity.y = -

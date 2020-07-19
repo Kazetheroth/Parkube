@@ -10,6 +10,7 @@ public class ScriptExposer : MonoBehaviour
     [SerializeField] public BasicMovement basicMovement;
     [SerializeField] public BasicCamera basicCamera;
     [SerializeField] public TweakerManager tweakerDatas;
+    [SerializeField] public GravityInverter gravityInverter;
 
     public bool isInMenu;
 

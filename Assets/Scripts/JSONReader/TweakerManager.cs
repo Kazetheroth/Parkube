@@ -14,6 +14,7 @@ namespace JSONReader
             DSE.Camera = new CameraTweaker();
             DSE.Character = new CharacterTweaker();
             DSE.Controls = new ControlsTweaker();
+            loadJSON();
         }
 
         public void saveJSON()

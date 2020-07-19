@@ -199,6 +199,7 @@ MonoBehaviour:
   basicMovement: {fileID: 407918107}
   basicCamera: {fileID: 3279283515873176698}
   tweakerDatas: {fileID: 0}
+  gravityInverter: {fileID: 1462229652597392293}
   isInMenu: 0
 --- !u!114 &407918107
 MonoBehaviour:
@@ -235,7 +236,7 @@ MonoBehaviour:
   climableMask:
     serializedVersion: 2
     m_Bits: 2048
-  se: {fileID: 0}
+  se: {fileID: 8791956968836009803}
   isGroundCheck: 0
   isMoving: 0
   canClimb: 0
