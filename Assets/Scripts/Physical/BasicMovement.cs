@@ -77,7 +77,7 @@ namespace Physical
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
-            if (player.position.y <= -300f || player.position.y >= 300f)
+            if (player.position.y <= -200f || player.position.y >= 200f)
             {
                 SceneManager.LoadScene("Level" + currentLevel);
                 return;

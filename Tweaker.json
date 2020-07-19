@@ -1,1 +1,1 @@
-{"Character":{"baseSpeed":10.0,"sprintSpeed":2.0,"heightJump":4.0,"lengthSlide":100.0},"Camera":{"blurModifier":1.4,"FOV":80.0},"Controls":{"forward":122,"backward":115,"left":113,"right":100}}
+{"Character":{"baseSpeed":10.0,"sprintSpeed":2.0,"heightJump":4.0,"lengthSlide":100.0},"Camera":{"blurModifier":1.399999976158142,"FOV":80.0},"Controls":{"forward":122,"backward":115,"left":113,"right":100}}
