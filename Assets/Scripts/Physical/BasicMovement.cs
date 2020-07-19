@@ -44,7 +44,7 @@ namespace Physical
         public float slideSpeed = 20; // slide speed
         private Vector3 slideForward; // direction of slide
         private float slideTimer = 0.0f;
-        public float slideTimerMax = 0.005f;
+        public float slideTimerMax;
         private float x;
         private float z;
 
@@ -73,8 +73,9 @@ namespace Physical
                 return;
             }
             
-            if (canClimb && Input.GetKeyDown(KeyCode.F) && !_isClimbing)
+            if (canClimb && Input.GetKeyDown(KeyCode.C) && !_isClimbing)
             {
+                Debug.Log("Climbing");
                 _finalClimbedPos = new Vector3(player.position.x, player.position.y + 1.0f, player.position.z);
                 _isClimbing = true;
             }
@@ -143,6 +144,7 @@ namespace Physical
                 _isSliding = true;
                 slideForward = new Vector3(movement.x, gravity * Time.deltaTime, movement.z);
                 transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                GetComponent<SphereCollider>().radius = 0.25f;
             }
             
             
@@ -166,6 +168,7 @@ namespace Physical
                 _velocity.z = movement.z;
                 _velocity.y += gravity * Time.deltaTime;
                 transform.localScale = new Vector3(1f, 1f, 1f);
+                GetComponent<SphereCollider>().radius = 0.5f;
             }
             if (slideTimer >= slideTimerMax || (!isGroundCheck || !_isPlateformCheck))
             {
@@ -179,7 +182,8 @@ namespace Physical
             isGroundCheck = Physics.CheckSphere(_groundCheckPosition, groundDistance, plateformMask);
             canClimb = Physics.CheckSphere(frontCheck.position, _sideDistance, climableMask);
             _isPlateformCheck = Physics.CheckSphere(_groundCheckPosition, groundDistance, plateformMask);
-            if (Physics.CheckSphere(rightCheck.position, _sideDistance, wallMask) || Physics.CheckSphere(leftCheck.position, _sideDistance, wallMask))
+            if (Physics.CheckSphere(rightCheck.position, _sideDistance, wallMask) ||
+                Physics.CheckSphere(leftCheck.position, _sideDistance, wallMask))
             {
                 _isWallLeft = Physics.CheckSphere(leftCheck.position, _sideDistance, wallMask);
                 _isWallCheck = true;
@@ -188,8 +192,6 @@ namespace Physical
             {
                 _isWallCheck = false;
             }
-            
-
-            }
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace Camera
         private void Update()
         {
         
-            if (se.basicMovement.isMoving && !se.basicMovement.isGroundCheck)
+            if (se.basicMovement.isMoving && se.basicMovement.isGroundCheck)
             {
                 UpdateCounter(ref _switchRun, ref _counterRun);
                 _counterIdle = 0;
