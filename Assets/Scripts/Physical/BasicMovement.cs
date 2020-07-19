@@ -36,7 +36,9 @@ namespace Physical
         public float slideSpeed = 20; // slide speed
         private Vector3 slideForward; // direction of slide
         private float slideTimer = 0.0f;
-        public float slideTimerMax = 0.05f;
+        public float slideTimerMax = 0.005f;
+        private float x;
+        private float z;
 
         private void Start()
         {
@@ -81,8 +83,8 @@ namespace Physical
             }
             
             
-            float x = Input.GetAxis("Horizontal");
-            float z = Input.GetAxis("Vertical");
+            x = Input.GetAxis("Horizontal");
+            z = Input.GetAxis("Vertical");
 
             Vector3 movement = transform.right * x + transform.forward * z;
             
@@ -107,32 +109,34 @@ namespace Physical
             
             if (Input.GetKeyDown(KeyCode.F) && !_isSliding && (isGroundCheck || _isPlateformCheck)) // press F to slide
             {
-                slideTimer = 0f; // start timer
+                slideTimer = 0f;
                 _isSliding = true;
                 slideForward = new Vector3(movement.x, gravity * Time.deltaTime, movement.z);
                 transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             }
             
-            if (_isSliding && (isGroundCheck || _isPlateformCheck))
-            {
-                _speed = slideSpeed;
-                _velocity = slideForward * _speed;
-         
-                slideTimer += Time.deltaTime;
-                
-            }
-            else
-            {
-                _velocity.x = movement.x;
-                _velocity.z = movement.z;
-                _velocity.y += gravity * Time.deltaTime;
-                transform.localScale = new Vector3(1f, 1f, 1f);
-            }
+            
             controller.Move(_velocity * Time.deltaTime);
         }
 
         private void FixedUpdate()
         {
+            if (_isSliding && (isGroundCheck || _isPlateformCheck))
+            {
+                Debug.Log(slideTimer);
+                _speed = slideSpeed;
+                _velocity = slideForward * _speed;
+         
+                slideTimer += Time.deltaTime;
+            }
+            else
+            {
+                Vector3 movement = transform.right * x + transform.forward * z;
+                _velocity.x = movement.x;
+                _velocity.z = movement.z;
+                _velocity.y += gravity * Time.deltaTime;
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            }
             if (slideTimer >= slideTimerMax || (!isGroundCheck || !_isPlateformCheck))
             {
                 _isSliding = false;
