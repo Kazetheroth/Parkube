@@ -9,7 +9,7 @@ namespace Physical
         [SerializeField] private CharacterController controller;
         [SerializeField] private float speedExposer;
         [SerializeField] private float jumpHeight;
-        [SerializeField] private float gravity; 
+        [SerializeField] public float gravity; 
         [SerializeField] private Transform groundCheck;
         [SerializeField] private Transform rightCheck;
         [SerializeField] private Transform leftCheck;
@@ -44,12 +44,13 @@ namespace Physical
         public float slideSpeed = 20; // slide speed
         private Vector3 slideForward; // direction of slide
         private float slideTimer = 0.0f;
-        public float slideTimerMax = 0.05f;
+        public float slideTimerMax = 1.0f;
 
         private void Start()
         {
             isMoving = false;
             _speed = se.tweakerDatas.DSE.Character.baseSpeed;
+
         }
         // Update is called once per frame
         void Update()
@@ -71,7 +72,7 @@ namespace Physical
                 return;
             }
             
-            if (canClimb && Input.GetKeyDown(KeyCode.F) && !_isClimbing)
+            if (canClimb && Input.GetKeyDown(KeyCode.A) && !_isClimbing)
             {
                 _finalClimbedPos = new Vector3(player.position.x, player.position.y + 1.0f, player.position.z);
                 _isClimbing = true;
@@ -81,6 +82,7 @@ namespace Physical
                 se.isInMenu = !se.isInMenu;
             }
 
+            
             if (se.isInMenu)
             {
                 Cursor.lockState = CursorLockMode.None;
@@ -127,15 +129,28 @@ namespace Physical
             controller.Move(movement * (_speed * Time.deltaTime));
             if (Input.GetButtonDown("Jump") && (isGroundCheck || _isPlateformCheck))
             {
-                _velocity.y = Mathf.Sqrt(se.tweakerDatas.DSE.Character.heightJump * (-_speed - 1) * gravity);
+                
+                if (gravity > 0)
+                {
+                    /*_velocity.y = (Mathf.Sqrt(-se.tweakerDatas.DSE.Character.heightJump * (_speed + 1) * gravity));
+                    Debug.Log((Mathf.Sqrt(-se.tweakerDatas.DSE.Character.heightJump * (_speed + 1) * gravity)));*/
+                    
+                    _velocity.y = -Mathf.Sqrt(-se.tweakerDatas.DSE.Character.heightJump * (-_speed - 1) * gravity);
+                    Debug.Log(Mathf.Sqrt(-se.tweakerDatas.DSE.Character.heightJump * (-_speed - 1) * gravity));
+                }
+                else
+                {
+                    _velocity.y = Mathf.Sqrt(se.tweakerDatas.DSE.Character.heightJump * (-_speed - 1) * gravity);
+                    Debug.Log(Mathf.Sqrt(se.tweakerDatas.DSE.Character.heightJump * (-_speed - 1) * gravity));
+                }
             }
             if (Input.GetButton("WallJump") && _isWallCheck)
             {
                 _velocity.y -= gravity * Time.deltaTime * 10;
             }
             _velocity.y += gravity * Time.deltaTime;
-            
-            if (Input.GetKeyDown(KeyCode.F) && !_isSliding && (isGroundCheck || _isPlateformCheck)) // press F to slide
+
+            if (Input.GetKeyDown(KeyCode.C) && !_isSliding && (isGroundCheck || _isPlateformCheck)) // press C to slide
             {
                 slideTimer = 0f; // start timer
                 _isSliding = true;

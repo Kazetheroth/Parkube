@@ -4705,16 +4705,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClimbPrefab
       objectReference: {fileID: 0}
-    - target: {fileID: 1751580151435297335, guid: 280aee3c1daafa745a72fddd529a29f0,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2622831535308405064, guid: 280aee3c1daafa745a72fddd529a29f0,
-        type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
     - target: {fileID: 9000367935035200576, guid: 280aee3c1daafa745a72fddd529a29f0,
         type: 3}
       propertyPath: m_LocalPosition.x
